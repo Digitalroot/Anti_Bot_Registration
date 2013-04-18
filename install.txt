@@ -1,0 +1,187 @@
+################################################################################
+## MOD Title:           Anti Bot Registration
+## MOD Author:          Nicholas Dunnaway http://uber.leetphp.com 
+##
+##
+## MOD Description:     English:
+##                      This mod adds a step to the registration process. This 
+##			Should keep Porn/Spam Bots from registering with your 
+##			site. 
+##
+## MOD Demo:            http://uber.leetphp.com/forums/profile.php?mode=register&agreed=true
+## MOD Version:         1.0.0
+## MOD Compatibility:   2.0.? - 2.0.22 - 2.0.x
+## 
+## Installation Level:  Easy
+## Installation Time:   5 Minutes 
+## Files To Edit:
+##		includes/usercp_register.php
+##		language/lang_english/lang_main.php
+##		templates/xxx/profile_add_body.tpl
+##  
+## Included Files:
+##		install.txt
+##
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2
+################################################################################
+## Author Notes: 
+##
+##	This mod will only work until bot writters catch on. Right now the added
+##	input is a T. If the spammers adjust just change it to another letter. 
+##
+##	The SQL step is just to increase the size of the code field from 6 to 7.
+##
+################################################################################
+## MOD History: 
+##
+##	2007-12-06 - Version 1.0.0
+##		- First Releases
+##
+################################################################################
+##
+##	Support:    http://uber.leetphp.com
+##
+##	Copyright:  2007 php|uber.leet
+##	            2007 Nicholas Dunnaway
+##
+################################################################################
+##	Before Adding This MOD To Your Forum,
+##	You Should Back Up All Files Related To This MOD
+################################################################################
+# 
+# 
+#-----[ SQL Command ]-----
+# 
+ALTER TABLE `phpbb_confirm` CHANGE `code` `code` CHAR( 7 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL  
+
+# 
+#-----[ OPEN ]-----
+# 
+includes/usercp_register.php
+
+# 
+#-----[ FIND ]-----
+# 
+$confirm_id = md5(uniqid($user_ip));
+
+#
+#-----[ AFTER, ADD ]-----
+#
+$code = 'T' . $code;
+
+# 
+#-----[ OPEN ]-----
+# 
+language\lang_english\lang_main.php
+
+# 
+#-----[ FIND ]-----
+# 
+$lang['Confirm_code_explain'] = 'Enter the code exactly as you see it. The code is case sensitive and zero has a diagonal line through it.
+
+#
+#-----[ REPLACE WITH ]-----
+#
+$lang['Confirm_code_explain'] = 'Enter the code exactly as you see it. The code is case sensitive and zero has a diagonal line through it.<br /><font color="red">Notice: I have added an extra step to the Confirmation code. Please add the letter "<b>T</b>" at the beginning of the Confirmation code.';
+
+# 
+# Note: do this for every template installed
+#	We just need to increase the max length to 7 and add T to the default value. Your template might look different. 
+#	name="confirm_code" size="6" maxlength="6" value="" 
+#	change to 
+#	name="confirm_code" size="7" maxlength="7" value="T"
+
+#
+#-----[ OPEN ]-----
+# note: do this for every template installed
+#
+templates/{template}/profile_add_body.tpl
+
+# 
+#-----[ FIND ]-----
+# 
+<td class="row2"><input type="text" class="post" style="width: 200px" name="confirm_code" size="6" maxlength="6" value="" /></td>
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<td class="row2"><input type="text" class="post" style="width: 200px" name="confirm_code" size="7" maxlength="7" value="T" /></td>
+
+#
+# Note: Now I disable a bunch of stuff. This is optional
+#
+
+# 
+#-----[ FIND ]-----
+# 
+<input type="text" name="icq" class="post" style="width: 100px"  size="10" maxlength="15" value="{ICQ}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" name="icq" class="post"style="width: 100px"  size="10" maxlength="15" value="{ICQ}" disabled />
+
+# 
+#-----[ FIND ]-----
+# 
+<input type="text" class="post" style="width: 150px"  name="aim" size="20" maxlength="255" value="{AIM}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 150px"  name="aim" size="20" maxlength="255" value="{AIM}" disabled />
+
+# 
+#-----[ FIND ]-----
+#
+<input type="text" class="post"style="width: 150px"  name="msn" size="20" maxlength="255" value="{MSN}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 150px"  name="msn" size="20" maxlength="255" value="{MSN}" disabled />
+
+# 
+#-----[ FIND ]-----
+#
+<input type="text" class="post"style="width: 150px"  name="yim" size="20" maxlength="255" value="{YIM}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 150px"  name="yim" size="20" maxlength="255" value="{YIM}" disabled />
+
+# 
+#-----[ FIND ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="website" size="25" maxlength="255" value="{WEBSITE}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="website" size="25" maxlength="255" value="{WEBSITE}" disabled />
+
+# 
+#-----[ FIND ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="interests" size="35" maxlength="150" value="{INTERESTS}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="interests" size="35" maxlength="150" value="{INTERESTS}" disabled />
+
+# 
+#-----[ FIND ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="website" size="25" maxlength="255" value="{WEBSITE}" />
+
+#
+#-----[ REPLACE WITH ]-----
+#
+<input type="text" class="post"style="width: 200px"  name="website" size="25" maxlength="255" value="{WEBSITE}" disabled />
+
+# 
+#-----[ SAVE/CLOSE ALL FILES ]-----
+# 
+# EoM
